@@ -1,5 +1,12 @@
 # Twitter Bot Automation
 
+Readme is split into three parts:
+
+1. Introduction
+2. How to run
+3. Results
+
+
 ## Introduction
 
 This project provides an automated Twitter interaction system powered by configurable “bots.” It uses a PostgreSQL database to manage bot credentials and store tweets. Passwords are securely hashed before storage. Once a bot is registered via the provided creation script, you can run the bot by its predefined name. The bot will:
@@ -11,3 +18,56 @@ This project provides an automated Twitter interaction system powered by configu
 5. Generate AI-driven responses by calling the OpenAI API via LangChain, with observability provided by LangSmith (tracking tokens, costs, and logs).
 
 All components run inside Docker containers, including a headless browser for scraping and a PostgreSQL instance for data storage.
+
+
+## How to run 
+
+Follow these steps to set up and run the Twitter Bot Automation using the provided scripts and Docker setup.
+
+1. Copy and Configure Environment Variables
+
+Rename the example file and open it for editing:
+
+```bash
+cp env_example .env
+```
+
+Populate .env with your credentials and settings:
+
+```bash
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=twitter_db
+POSTGRES_PORT=5432
+DATABASE_URL=postgresql+asyncpg://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@db:5432/$(POSTGRES_DB)
+FERNET_KEY=<your_fernet_key>
+TWITTER_LOGIN=<twitter_login>
+TWITTER_PASSWORD=<twitter_password>
+OPENAI_API_KEY=<your_openai_api_key>
+LANGSMITH_API_KEY=<your_langsmith_api_key>
+```
+
+2. Build and Launch Docker Services
+
+Use the Makefile targets to orchestrate Docker:
+
+```bash
+make build
+make up
+```
+
+Verify that the services are running:
+
+```bash
+docker compose ps
+```
+
+3. Apply Database Migrations
+
+Run Alembic migrations to create the bots and tweets tables:
+
+```bash
+make apply-migrations
+```
+
+Note: The migration script lives under alembic/versions/3caa6e451516_initial.py.

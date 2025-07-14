@@ -18,6 +18,10 @@ logs:
 psql:
 	docker exec -it $$(docker compose ps -q db) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 
+apply-migrations:
+	docker compose run --rm app \
+	  uv run alembic upgrade head
+
 # run your bot:
 # make run-bot BOT_NAME=<name> [MAX_TWEETS=<n>]
 run-bot:
