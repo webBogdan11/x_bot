@@ -24,7 +24,7 @@ All components run inside Docker containers, including a headless browser for sc
 
 Follow these steps to set up and run the Twitter Bot Automation using the provided scripts and Docker setup.
 
-1. Copy and Configure Environment Variables
+###1. Copy and Configure Environment Variables
 
 Rename the example file and open it for editing:
 
@@ -47,7 +47,7 @@ OPENAI_API_KEY=<your_openai_api_key>
 LANGSMITH_API_KEY=<your_langsmith_api_key>
 ```
 
-2. Build and Launch Docker Services
+###2. Build and Launch Docker Services
 
 Use the Makefile targets to orchestrate Docker:
 
@@ -62,12 +62,57 @@ Verify that the services are running:
 docker compose ps
 ```
 
-3. Apply Database Migrations
+### 3. Apply Database Migrations
 
-Run Alembic migrations to create the bots and tweets tables:
+Run Alembic migrations to create the `bots` and `tweets` tables:
 
 ```bash
 make apply-migrations
 ```
 
-Note: The migration script lives under alembic/versions/3caa6e451516_initial.py.
+> **Note:** The migration script lives under `alembic/versions/3caa6e451516_initial.py`.
+
+### 4. Register a New Bot
+
+Use the helper script to create a bot record (password will be hashed):
+
+```bash
+make create-bot BOT_NAME=<name> USERNAME=<display_name> LOGIN=<twitter_login> PASSWORD=<plaintext_password>
+```
+
+Example:
+
+```bash
+make create-bot BOT_NAME=news_bot USERNAME=NewsBot LOGIN=news_account PASSWORD=SuperSecret123
+```
+
+### 5. Run Your Bot
+
+Specify which bot to run and how many tweets to process:
+
+```bash
+# Default max tweets = 8
+make run-bot BOT_NAME=<name>
+
+# Override max tweets (e.g. 50 tweets)
+make run-bot BOT_NAME=<name> MAX_TWEETS=50
+```
+
+Under the hood, this invokes:
+
+```bash
+docker compose run --rm app \
+  uv run -m src.run_bot \
+    --bot-name <name> \
+    --max-tweets <n>
+```
+
+Once invoked, the bot will:
+
+- Launch a headless browser via Playwright
+- Authenticate and scrape the home timeline
+- Identify the most viral tweet
+- Perform likes, retweets, and replies
+- Persist tweet and reply data in PostgreSQL
+
+---
