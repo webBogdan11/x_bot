@@ -24,7 +24,7 @@ All components run inside Docker containers, including a headless browser for sc
 
 Follow these steps to set up and run the Twitter Bot Automation using the provided scripts and Docker setup.
 
-###1. Copy and Configure Environment Variables
+### 1. Copy and Configure Environment Variables
 
 Rename the example file and open it for editing:
 
@@ -47,7 +47,7 @@ OPENAI_API_KEY=<your_openai_api_key>
 LANGSMITH_API_KEY=<your_langsmith_api_key>
 ```
 
-###2. Build and Launch Docker Services
+### 2. Build and Launch Docker Services
 
 Use the Makefile targets to orchestrate Docker:
 
@@ -115,4 +115,24 @@ Once invoked, the bot will:
 - Perform likes, retweets, and replies
 - Persist tweet and reply data in PostgreSQL
 
----
+## Results
+
+### 1. Bot actions 
+
+After scrapping and determing the most viral tweet, the bot will perform the following actions:
+
+1. Like the tweet
+2. Retweet the tweet
+3. Reply to the tweet
+
+![Bot actions](./assets/bot_actions.gif)
+
+### 2. Examples of tweets and replies
+1. Tweet + Reply example 1:
+![Tweet](./assets/ex1.png)
+
+2. Tweet + Reply example 2:
+![Reply](./assets/ex2.png)
+
+3. Tweet + Reply example 3:
+![Tweet](./assets/ex3.png)

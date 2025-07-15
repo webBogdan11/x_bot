@@ -28,7 +28,7 @@ async def run_bot(bot_name: str, max_tweets: int = 8) -> None:
 
         logger.info(f"Bot {bot_name} found")
         twitter_portal = TwitterPortal(
-            headless=True, session=bot_data.session_data, logger=logger
+            headless=False, session=bot_data.session_data, logger=logger
         )
         async with twitter_portal:
             await twitter_portal.get_following_tweets_page(
