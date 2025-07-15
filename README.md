@@ -136,3 +136,17 @@ After scrapping and determing the most viral tweet, the bot will perform the fol
 
 3. Tweet + Reply example 3:
 ![Tweet](./assets/ex3.png)
+
+
+### 3. LangSmith
+
+LangSmith is used to observe the bot's interactions with LLM models .
+
+![LangSmith](./assets/langsmith.png)
+
+
+### 4. Database
+
+Here is screenshot of the database state:
+
+![Database](./assets/db_screen.png)
